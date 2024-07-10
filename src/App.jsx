@@ -1,7 +1,19 @@
 import "./App.css";
+import { useDispatch, useSelector} from "react-redux";
+import { fetchJobCategories, getJobCategoriesError, getJobCategoriesStatus, selectAllJobCategories } from "./redux/feature/category-job/categorySlice";
+import { useEffect, useState } from "react";
 
 function App() {
-  console.log(import.meta.env.VITE_API_URL)
+  const dispatch = useDispatch();
+  const categories = useSelector(selectAllJobCategories);
+  const error = useSelector(getJobCategoriesError);
+  const status = useSelector(getJobCategoriesStatus)
+  
+  useEffect(()=>{
+    if (status === 'idle'){
+      dispatch(fetchJobCategories());
+    }
+  }, [status, dispatch]);
   return (
     <>
     <h1 className="mt-20 text-3xl text-blue-800 font-bold text-center">
